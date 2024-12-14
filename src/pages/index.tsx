@@ -1,7 +1,7 @@
 // pages/index.tsx
 import { useState } from 'react';
 
-import MyEditor from '../components/JoditEditor';
+import FullFeaturedEditor from '@/components/JoditEditor';
 
 const Index = () => {
   const [editorValue, setEditorValue] = useState<string>('');
@@ -11,12 +11,20 @@ const Index = () => {
   };
 
   return (
-    <div>
-      <h1>Next.js with Jodit Editor</h1>
-      <MyEditor value={editorValue} onChange={handleEditorChange} />
-      <div>
+    <div style={{ padding: '20px' }}>
+      <h1>Jodit Editor Full-Featured Demo</h1>
+      <FullFeaturedEditor value={editorValue} onChange={handleEditorChange} />
+      <div style={{ marginTop: '20px' }}>
         <h2>Editor Output:</h2>
-        <div dangerouslySetInnerHTML={{ __html: editorValue }} />
+        <div
+          style={{
+            border: '1px solid #ddd',
+            padding: '10px',
+            minHeight: '100px',
+            background: '#f9f9f9',
+          }}
+          dangerouslySetInnerHTML={{ __html: editorValue }}
+        />
       </div>
     </div>
   );
