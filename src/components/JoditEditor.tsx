@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import dynamic from 'next/dynamic';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
 
@@ -20,7 +20,6 @@ const FullFeaturedEditor = () => {
     showXPathInStatusbar: true,
     allowResizeY: true,
     buttons: [
-      'source',
       'bold',
       'italic',
       'underline',
@@ -46,10 +45,7 @@ const FullFeaturedEditor = () => {
       'redo',
       '|',
       'hr',
-      'copyformat',
-      'symbol',
       'fullsize',
-      'print',
       '|',
       'preview',
       'selectall',
@@ -73,15 +69,62 @@ const FullFeaturedEditor = () => {
   };
 
   const handleAddContent = () => {
-    const editorInstance = editorRef?.current;
+    const dummyContent = `
+      <div>
+        <h1>Welcome to Text Editor</h1>
+        <p>
+          This is a sample paragraph. Use the <strong>bold</strong>, <em>italic</em>, 
+          and <u>underline</u> options to style your text. 
+          You can also <a href="https://www.example.com" target="_blank">add links</a> to your content.
+        </p>
 
+        <h2>Features</h2>
+        <ul>
+          <li>Rich text formatting</li>
+          <li>Insert images and media</li>
+          <li>Interactive tables</li>
+          <li>Customizable toolbar</li>
+        </ul>
+
+        <h3>Example Table</h3>
+        <table border="1" style="border-collapse: collapse; width: 100%;">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rich Text</td>
+              <td>Edit and format text easily.</td>
+            </tr>
+            <tr>
+              <td>Media</td>
+              <td>Embed images, videos, and links.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>
+          Thank you for trying out the <strong>Jodit Text Editor</strong>. Have fun editing!
+        </p>
+      </div>
+    `;
+
+    if (editorRef.current) {
+      editorRef.current.setEditorValue(dummyContent);
+    }
+  };
+  
+  const handleAddGreetings = () => {
+    const editorInstance = editorRef?.current;
     if (editorInstance) {
       const { selection } = editorInstance;
-
       if (selection) {
         const { range } = selection;
         if (range) {
-          selection?.insertHTML('SOME TEXT HERE');
+          selection?.insertHTML('Welcome,');
           const newRange = selection.range;
           selection.selectRange(newRange);
         }
@@ -89,47 +132,38 @@ const FullFeaturedEditor = () => {
     }
   };
 
-  return (
-    <div>
-      <button
-        onClick={handleAddContent}
-        className="rounded-md bg-gray-500 px-5 py-2.5 text-white"
-      >
-        Add
-      </button>
 
+  return (
+    <div className="p-5">
       <JoditEditor
         ref={editorRef}
-        value={editorRef?.current?.value}
+        value=""
         config={{
           ...config,
           events: {
-            afterInit: (e: any) => {
-              editorRef.current = e;
+            afterInit: (editor: any) => {
+              editorRef.current = editor;
             },
           },
         }}
       />
 
-      <button
-        onClick={handleAddContent}
-        className="rounded-md bg-gray-500 px-5 py-2.5 text-white"
-      >
-        See In preview
-      </button>
+      <div className="mt-5 flex space-x-3">
+        <button
+          onClick={handleAddContent}
+          className="rounded-md bg-blue-500 px-5 py-2.5 text-white"
+        >
+          Add Sample Content
+        </button>
 
-      <div style={{ marginTop: '20px' }}>
-        <h2>Editor Output:</h2>
-        <div
-          style={{
-            border: '1px solid #ddd',
-            padding: '10px',
-            minHeight: '100px',
-            background: '#f9f9f9',
-          }}
-          dangerouslySetInnerHTML={{ __html: editorRef?.current?.value }}
-        />
+        <button
+          onClick={handleAddGreetings}
+          className="rounded-md bg-blue-500 px-5 py-2.5 text-white"
+        >
+          Add Greetings where cursor?
+        </button>
       </div>
+
     </div>
   );
 };
