@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import dynamic from 'next/dynamic';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 const JoditEditor = dynamic(() => import('jodit-react'), { ssr: false });
 
@@ -36,7 +36,6 @@ const FullFeaturedEditor = () => {
       'paragraph',
       '|',
       'image',
-      'video',
       'table',
       'link',
       '|',
@@ -66,6 +65,7 @@ const FullFeaturedEditor = () => {
     ],
     language: 'en',
     tabIndex: 1,
+    placeholder: 'Start typing your content here...',
   };
 
   const handleAddContent = () => {
@@ -116,7 +116,7 @@ const FullFeaturedEditor = () => {
       editorRef.current.setEditorValue(dummyContent);
     }
   };
-  
+
   const handleAddGreetings = () => {
     const editorInstance = editorRef?.current;
     if (editorInstance) {
@@ -131,7 +131,6 @@ const FullFeaturedEditor = () => {
       }
     }
   };
-
 
   return (
     <div className="p-5">
@@ -162,8 +161,18 @@ const FullFeaturedEditor = () => {
         >
           Add Greetings where cursor?
         </button>
-      </div>
 
+        <button
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window?.open('/test', '_blank');
+            }
+          }}
+          className="rounded-md bg-blue-500 px-5 py-2.5 text-white"
+        >
+          Open In New Tab
+        </button>
+      </div>
     </div>
   );
 };

@@ -97,7 +97,6 @@ const FullFeaturedEditor = () => {
       >
         Add
       </button>
-
       <JoditEditor
         ref={editorRef}
         value={editorRef?.current?.value}
@@ -110,14 +109,12 @@ const FullFeaturedEditor = () => {
           },
         }}
       />
-
       <button
         onClick={handleAddContent}
         className="rounded-md bg-gray-500 px-5 py-2.5 text-white"
       >
         See In preview
       </button>
-
       <div style={{ marginTop: '20px' }}>
         <h2>Editor Output:</h2>
         <div
