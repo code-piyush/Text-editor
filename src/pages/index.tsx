@@ -2,8 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-import FullFeaturedEditor from '@/components/JoditEditor';
-
 const Index = () => {
   const [message, setMessage] = useState('');
 
@@ -25,7 +23,7 @@ const Index = () => {
 
       <p>{message}</p>
 
-      <FullFeaturedEditor />
+      {/* <FullFeaturedEditor /> */}
     </div>
   );
 };
