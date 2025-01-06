@@ -1,16 +1,18 @@
 // pages/index.tsx
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import FullFeaturedEditor from '@/components/JoditEditor';
 
 const Index = () => {
+  const [message, setMessage] = useState('');
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window?.addEventListener('orientationchange', () => {
         const width = Number(window?.outerHeight);
 
-        console.log('ORIENTATION CHANGED', width);
+        setMessage(`ORIENTATION CHANGED ${width}`);
       });
     }
   }, []);
@@ -20,6 +22,8 @@ const Index = () => {
       <h1 className="px-5 text-xl font-bold italic">
         Jodit Editor Full-Featured Demo
       </h1>
+
+      <p>{message}</p>
 
       <FullFeaturedEditor />
     </div>
